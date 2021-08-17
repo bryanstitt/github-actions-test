@@ -23,8 +23,14 @@ jobs:
       - name: Run a script # this step runs on its own docker file
         uses: docker://node:16-alpine3.11
         with:
-          entrypoint: ./script.sh # pass in personal executable file
+          entrypoint: ./script.sh # pass in personal executable file (doesn't work for some reason)
           args: "Some string"
+      - name: send a slack message
+        if: failure()
+        uses: docker://technosophos/slack-notify
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "Hello slack"
   node-docker:
     runs-on: ubuntu-latest
     services: # similar to a docker compose file; specify what containers to run and ports
