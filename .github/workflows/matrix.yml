@@ -7,9 +7,20 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
         node_version: [6, 8, 10] # make job run for versions 6, 8, and 10
+        include:
+          - os: ubuntu-latest # adds update to ubuntu v4
+            node_version: 8
+            is_ubuntu_8: "true"
+        exclude:
+          - os: ubuntu-latest # exclude updating ubuntu v6 & mac v8
+            node_version: 6
+          - os: macos-latest
+            node_version: 8
       max-parallel: 3 # limits number of jobs running in parallel in the matrix
       fail-fast: true # if one of the jobs fail, all of the jobs in the matrix will stop
     runs-on: ${{ matrix.os }}
+    env:
+      IS_UBUNTU_8: ${{ matrix.is_ubuntu_8 }} # this is set to true only when running matrix job with ubuntu 8
     steps:
       - name: Log node version
         run: node -v
@@ -17,4 +28,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - name: Log updated node version
-        run: node -v
+        run: |
+          node -v
+          echo $IS_UBUNTU_8
