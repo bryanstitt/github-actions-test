@@ -5,9 +5,11 @@ name: Shell Commands
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
+    timeout-minutes: 360 # maximum number of mins job will take (can be run on steps)
     steps:
       - name: echo a string
         run: echo "Hello World"
+        continue-on-error: true # all other steps will run if this fails
       - name: multiline script
         run: |
           node -v
