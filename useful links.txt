@@ -1,1 +1,2 @@
-crontab.guru - cron schedule expressions
+CRON TEXT LAYOUT - crontab.guru
+CONTEXT AND EXPRESSION SYNTAX - https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
